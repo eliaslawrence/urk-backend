@@ -20,6 +20,19 @@
  */
 
 module.exports = {
+  APP_URL: process.env.APP_URL,
+
+  UPLOAD_TYPE: process.env.UPLOAD_TYPE,
+
+  upload:{
+    path: '/assets/uploads/',
+    transferPath: '../../assets/uploads/'    
+  },
+
+  log:{
+    info: 1,
+    error: 2
+  },
 
 
   /**************************************************************************
@@ -29,11 +42,7 @@ module.exports = {
   * (https://sailsjs.com/config/datastores)                                 *
   *                                                                         *
   **************************************************************************/
-  datastores: {
-
-    APP_URL: process.env.APP_URL,
-
-    UPLOAD_TYPE: process.env.UPLOAD_TYPE,
+  datastores: {    
 
     /***************************************************************************
     *                                                                          *
@@ -51,7 +60,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     default: {
-      url: 'mongodb://deploy:abcd@cluster0-shard-00-00-vgodk.mongodb.net:27017,cluster0-shard-00-01-vgodk.mongodb.net:27017,cluster0-shard-00-02-vgodk.mongodb.net:27017/ez-med-db?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin', 
+      url: process.env.MONGO_URL,
       ssl: true,
       adapter: 'sails-mongo',
       // adapter: 'sails-mysql',

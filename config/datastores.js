@@ -33,16 +33,9 @@ module.exports.datastores = {
   ***************************************************************************/
 
   default: {
-
-    // adapter: 'sails-mongo',
-    // url: 'mongodb://root@localhost/ez-med'
-    // url: 'mongodb://deploy:abcd@cluster0-vgodk.mongodb.net/test?retryWrites=true&w=majority',//process.env.MONGO_URL,          
     adapter: 'sails-mongo',
     host: 'mongodb',//'localhost',
     port: 27017,
-
-    // user: 'deploy', //optional
-    // password: 'abcd', //optional
     database: 'urk-db' //optional
 
     /***************************************************************************
