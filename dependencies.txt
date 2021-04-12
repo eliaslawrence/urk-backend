@@ -1,0 +1,17 @@
+npm install sails-mongo --save
+npm install -g nodemon
+npm i --save sails-hook-organics // sails.helpers.fs
+npm install json2csv --save
+npm install json2xls --save
+
+npm install --save passport passport-local passport-jwt jsonwebtoken
+npm install --save bcrypt-nodejs
+
+// Scraping html
+npm install cheerio --save
+
+// Access asset file
+npm install grunt-sync@0.8.0
+
+// Access s3 file
+npm install skipper-s3 --save
