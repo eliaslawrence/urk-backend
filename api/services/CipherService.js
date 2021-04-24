@@ -77,5 +77,47 @@ module.exports = {
       //   audience: sails.config.jwtSettings.audience
       // }
     );
-  }
+  },
+
+  /**
+   * Create a token based on the passed user
+   * @param user
+   */
+   createEmailToken: function(user)
+   {
+     _log('createToken', user);
+ 
+     return jwt.sign(
+       {
+         user: user.toJSON()
+       },
+       sails.config.jwtEmailSettings.secret
+       ,
+       {
+       //   algorithm: sails.config.jwtSettings.algorithm,
+        expiresIn: sails.config.jwtEmailSettings.expiresIn,
+       //   issuer: sails.config.jwtSettings.issuer,
+       //   audience: sails.config.jwtSettings.audience
+       }
+     );
+
+    //  jwt.sign(
+    //   {
+    //     user: user.toJSON(),
+    //   },
+    //   EMAIL_SECRET,
+    //   {
+    //     expiresIn: '1d',
+    //   },
+    //   (err, emailToken) => {
+    //     const url = `http://localhost:3000/confirmation/${emailToken}`;
+
+    //     transporter.sendMail({
+    //       to: args.email,
+    //       subject: 'Confirm Email',
+    //       html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+    //     });
+    //   },
+    // );
+   }
 };

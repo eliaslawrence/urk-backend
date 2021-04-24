@@ -28,7 +28,21 @@ module.exports = function (req, res, next) {
         }
       );
       return;
-    }    
+    }  
+    if(!user.confirmed)  {
+      info = {
+        code: 'E_EMAIL_NOT_CONFIRMED',
+        message: 'Email não confirmado.'
+      };
+
+      res.unauthorized(
+        {
+          info: info && info.code,
+          message: info && info.message
+        }
+      );
+      return;
+    }
     req.user = user;    
     next();
   })(req, res);

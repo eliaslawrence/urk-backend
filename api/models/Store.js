@@ -33,104 +33,107 @@ module.exports = {
     },
     address: {
       model: 'address'
-    },    
+    },  
+    searchField: {
+      type: 'string'
+    },   
 
-    //Sunday 
-    sundayWork: {
-      type: 'boolean',
-      defaultsTo: true,
-    },
-    sundayOpeningHour: {
-      type: 'string',
-      defaultsTo: '10:00',
-    },
-    sundayClosingHour: {
-      type: 'string',
-      defaultsTo: '18:00',
-    },
+    // //Sunday 
+    // sundayWork: {
+    //   type: 'boolean',
+    //   defaultsTo: true,
+    // },
+    // sundayOpeningHour: {
+    //   type: 'string',
+    //   defaultsTo: '10:00',
+    // },
+    // sundayClosingHour: {
+    //   type: 'string',
+    //   defaultsTo: '18:00',
+    // },
 
-    //Monday
-    mondayWork: {
-      type: 'boolean',
-      defaultsTo: true,
-    },
-    mondayOpeningHour: {
-      type: 'string',
-      defaultsTo: '10:00',
-    },
-    mondayClosingHour: {
-      type: 'string',
-      defaultsTo: '18:00',
-    },
+    // //Monday
+    // mondayWork: {
+    //   type: 'boolean',
+    //   defaultsTo: true,
+    // },
+    // mondayOpeningHour: {
+    //   type: 'string',
+    //   defaultsTo: '10:00',
+    // },
+    // mondayClosingHour: {
+    //   type: 'string',
+    //   defaultsTo: '18:00',
+    // },
 
-    //Tuesday
-    tuesdayWork: {
-      type: 'boolean',
-      defaultsTo: true,
-    },
-    tuesdayOpeningHour: {
-      type: 'string',
-      defaultsTo: '10:00',
-    },
-    tuesdayClosingHour: {
-      type: 'string',
-      defaultsTo: '18:00',
-    },
+    // //Tuesday
+    // tuesdayWork: {
+    //   type: 'boolean',
+    //   defaultsTo: true,
+    // },
+    // tuesdayOpeningHour: {
+    //   type: 'string',
+    //   defaultsTo: '10:00',
+    // },
+    // tuesdayClosingHour: {
+    //   type: 'string',
+    //   defaultsTo: '18:00',
+    // },
 
-    //Wednesday
-    wednesdayWork: {
-      type: 'boolean',
-      defaultsTo: true,
-    },
-    wednesdayOpeningHour: {
-      type: 'string',
-      defaultsTo: '10:00',
-    },
-    wednesdayClosingHour: {
-      type: 'string',
-      defaultsTo: '18:00',
-    },
+    // //Wednesday
+    // wednesdayWork: {
+    //   type: 'boolean',
+    //   defaultsTo: true,
+    // },
+    // wednesdayOpeningHour: {
+    //   type: 'string',
+    //   defaultsTo: '10:00',
+    // },
+    // wednesdayClosingHour: {
+    //   type: 'string',
+    //   defaultsTo: '18:00',
+    // },
 
-    //Thursday
-    thursdayWork: {
-      type: 'boolean',
-      defaultsTo: true,
-    },
-    thursdayOpeningHour: {
-      type: 'string',
-      defaultsTo: '10:00',
-    },
-    thursdayClosingHour: {
-      type: 'string',
-      defaultsTo: '18:00',
-    },
+    // //Thursday
+    // thursdayWork: {
+    //   type: 'boolean',
+    //   defaultsTo: true,
+    // },
+    // thursdayOpeningHour: {
+    //   type: 'string',
+    //   defaultsTo: '10:00',
+    // },
+    // thursdayClosingHour: {
+    //   type: 'string',
+    //   defaultsTo: '18:00',
+    // },
 
-    //Friday
-    fridayWork: {
-      type: 'boolean',
-      defaultsTo: true,
-    },
-    fridayOpeningHour: {
-      type: 'string',
-      defaultsTo: '10:00',
-    },
-    fridayClosingHour: {
-      type: 'string',
-      defaultsTo: '18:00',
-    },
+    // //Friday
+    // fridayWork: {
+    //   type: 'boolean',
+    //   defaultsTo: true,
+    // },
+    // fridayOpeningHour: {
+    //   type: 'string',
+    //   defaultsTo: '10:00',
+    // },
+    // fridayClosingHour: {
+    //   type: 'string',
+    //   defaultsTo: '18:00',
+    // },
 
-    //Saturday
-    saturdayWork: {
-      type: 'boolean',
-      defaultsTo: true,
-    },
-    saturdayOpeningHour: {
-      type: 'string',
-      defaultsTo: '10:00',
-    },
-    saturdayClosingHour: {
-      type: 'string',
-      defaultsTo: '18:00',
-    },
+    // //Saturday
+    // saturdayWork: {
+    //   type: 'boolean',
+    //   defaultsTo: true,
+    // },
+    // saturdayOpeningHour: {
+    //   type: 'string',
+    //   defaultsTo: '10:00',
+    // },
+    // saturdayClosingHour: {
+    //   type: 'string',
+    //   defaultsTo: '18:00',
+    // },
   },
 };

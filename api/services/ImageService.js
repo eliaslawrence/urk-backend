@@ -24,31 +24,6 @@ module.exports = {
     return resp;
   },
 
-  async createFromFile (file) {  
-    _log('createFromFile', file);   
-
-    try {
-      let image = {};
-      image.fileName = file.fd.substr(file.fd.lastIndexOf('/') + 1);
-      image.fileName = image.fileName.substr(0, image.fileName.lastIndexOf('.'));
-      image.originalName = file.filename.substr(0, file.filename.lastIndexOf('.'));;
-      image.extension = file.filename.substr(file.filename.lastIndexOf('.') + 1);
-      image.url = sails.config.APP_URL + '/uploads/' + image.fileName + '.' + image.extension;
-      image.size = file.size;
-
-      _log('createFromFile', image); 
-
-      var resp = ImageService.create(image);
-    } catch (error) {
-      _log('createFromFile', error);
-      throw(error);
-    }
-
-    _log('createFromFile', resp);
-
-    return resp;
-  },
-
   //SEARCH
 
   async findById (id) {
@@ -120,11 +95,16 @@ module.exports = {
             _log('remove', image); 
             
             if(image && image != null){
-              if(sails.config.UPLOAD_TYPE == "local"){
-                fs.unlinkSync(base + path + image.fileName + '.' + image.extension); 
-              } else {
-                // const skipper = require('skipper-s3')({key: KEY,secret: SECRET,bucket: BUCKET});
-                // skipper.rm(image.fileName + '.' + image.extension,function(){});
+              if(image.storage == sails.config.LOCAL_STORAGE){
+                fs.unlinkSync(base + path + image.fileName); 
+              } else if(image.storage == sails.config.S3_STORAGE){
+                const skipper = require('skipper-better-s3')({
+                  key: sails.config.AWS_KEY, 
+                  secret: sails.config.AWS_SECRET, 
+                  bucket: sails.config.AWS_BUCKET_NAME,
+                  region: sails.config.AWS_REGION
+                });
+                skipper.rm(image.fileName,function(){});
               }                           
 
               await ImageService.delete(imgId);

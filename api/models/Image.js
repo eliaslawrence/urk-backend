@@ -12,7 +12,7 @@ module.exports = {
       type: 'string',
       required: true
     }, 
-    extension: {
+    type: {
       type: 'string',
       required: true
     }, 
@@ -27,6 +27,10 @@ module.exports = {
     size: {
       type: 'string',
       required: true
-    },       
+    },    
+    storage: {
+      type: 'string',
+      required: true
+    },    
   },
 };

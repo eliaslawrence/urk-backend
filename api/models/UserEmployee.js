@@ -16,6 +16,10 @@ module.exports = {
       type: 'string',
       required: true
     },
+    confirmed: {
+      type: 'boolean',
+      defaultsTo: false
+    }
     // store: { 
     //   model: 'store',
     // },

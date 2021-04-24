@@ -42,6 +42,11 @@ module.exports.routes = {
     action: 'signup'
   }, 
 
+  'GET /auth/confirmEmail/*': {
+    controller: 'AuthController',
+    action: 'confirmEmail'
+  },
+
   //
 
   // USER
@@ -72,9 +77,19 @@ module.exports.routes = {
     action: 'findById',
   },
 
-  'GET /product/findByUser/:userId?': {
+  'GET /product/findByUser/:limit/:skip/:text?': {
     controller: 'ProductController',
     action: 'findByUser',
+  },
+
+  'GET /product/findByStore/:storeId?': {
+    controller: 'ProductController',
+    action: 'findByStore',
+  },
+
+  'GET /product/search/:limit/:skip/:text?': {
+    controller: 'ProductController',
+    action: 'search',
   },
 
   'PUT /product/updateAttribute/:productId?': {
@@ -113,6 +128,15 @@ module.exports.routes = {
   //   controller: 'StoreController',
   //   action: 'update'
   // },
+  'GET /store/search/:limit/:skip/:text?': {
+    controller: 'StoreController',
+    action: 'search',
+  },
+
+  'GET /store/findById/:storeId?': {
+    controller: 'StoreController',
+    action: 'findById',
+  },
 
   'GET /store/findByUser': {
     controller: 'StoreController',

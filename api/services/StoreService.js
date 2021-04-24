@@ -102,6 +102,8 @@ module.exports = {
     return resp;
   },  
 
+  // FIND
+
   // findStore: (req, res) => {
   //   console.log('findStore');
   //   let storeName = req.body.storeName;
@@ -111,6 +113,21 @@ module.exports = {
   //     ResponseService.sendError(res, err);
   //   });
   // },
+
+  async find (params, limit, skip) {
+    _log('find', params);
+
+    try {
+      var resp = await Store.find(params).limit(limit).skip(skip).populate('address').populate('telephones').populate('coverImage');      
+    } catch (error) {
+      _log('find', error);
+      throw(error);
+    }
+        
+    _log('find', resp);
+
+    return resp;
+  }, 
 
   async findById (id) {
     _log('findById', id);
@@ -145,11 +162,59 @@ module.exports = {
     return resp;
   },
 
+  async search(text, limit, skip) { 
+    _log('search');
+
+    try {
+      let param = {};
+      if(text != undefined) {
+        let  words = text.split(" ");
+
+        let andClause = [];
+        for(let i = 0; i < words.length; i++){
+          andClause.push({ searchField: {"$regex": new RegExp(words[i],"i")}});
+        }
+        
+        param = {$and: andClause};
+      }
+      _log('search', param);
+
+      // Get access to the native MongoDB client via the default Sails datastore.
+      var db = sails.getDatastore().manager;
+
+      // Find all stores with the expression "text" in the searchField.
+      var stores = await db.collection('store').find(param).project({ id: 1 }).toArray();
+      _log('search', stores);
+
+      var ids = [];
+
+      for(let i = 0; i < stores.length; i++){
+        ids.push(stores[i]['_id'].toString());
+      }
+
+      // _log('search', ids);
+      
+      // let param = text != undefined ? { searchField: {contains: text} } : {};
+      // _log('search', param);
+      var resp = await StoreService.find({id: ids}, limit, skip); 
+    } catch (err) {
+      _log('search', err);
+      throw err;
+    }
+
+    _log('search', resp);
+
+    return resp;
+  },
+
+  // UPDATE
+
   async updateAttribute(storeId, attributeJSON) { 
     _log('updateAttribute');
 
     try {
       var resp = await Store.updateOne({ id: storeId }).set(attributeJSON);
+      resp = await Store.updateOne({ id: storeId }).set({searchField: resp.name.toLowerCase() + " " + resp.accountName.toLowerCase().replace(/(\r\n|\n|\r)/gm," ")});
 
       if(!resp){
         const err = new Error('Store not found');

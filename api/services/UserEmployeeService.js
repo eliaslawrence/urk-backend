@@ -47,6 +47,29 @@ module.exports = {
     return resp;
   },
 
+  // UPDATE
+
+  async updateAttribute(userId, attributeJSON) { 
+    _log('updateAttribute');
+
+    try {
+      var resp = await UserEmployee.updateOne({ id: userId }).set(attributeJSON);
+
+      if(!resp){
+        const err = new Error('User not found');
+        err.status = 400;
+        throw err;
+      }
+    } catch (error) {
+      _log('updateAttribute', error);
+      throw error;
+    }
+
+    _log('updateAttribute', resp);
+
+    return resp;
+  },
+
   // findById: (id) => {
   //   const deferred = require('q').defer();
 

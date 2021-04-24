@@ -34,6 +34,9 @@ module.exports = {
       collection: 'productImage',
       via: 'product'
     },
+    searchField: {
+      type: 'string'
+    }, 
     // images: {
     //   type:'array',
     //   defaultsTo:[]

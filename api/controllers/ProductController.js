@@ -35,11 +35,67 @@ module.exports = {
      * @description Find by user
      */
      async findByUser (req, res) {
-        let user = req.user
+        let user  = req.user;
+        let text  = req.params.text;         
+        let limit = req.params.limit;         
+        let skip  = req.params.skip;         
+
+        LogService.controllerLog(req, text);
+        LogService.controllerLog(req, limit);
+        LogService.controllerLog(req, skip);
         LogService.controllerLog(req, user);
 
         try {
-            var resp = await ProductService.findByUser(user.id);
+            var resp = await ProductService.findByUser(user.id, text, limit, skip);
+        } catch (err) {
+            LogService.controllerLog(req, err);
+            throw err;
+        }
+
+        LogService.controllerLog(req, resp);
+
+        return res.ok(resp);
+    }, 
+
+    /**  
+     * @author      Elias Lawrence
+     * @param       
+     * @returns     
+     * @description Find by store
+     */
+     async findByStore (req, res) {
+        let storeId = req.params.storeId;
+        LogService.controllerLog(req, storeId);
+
+        try {
+            var resp = await ProductService.findByStore(storeId);
+        } catch (err) {
+            LogService.controllerLog(req, err);
+            throw err;
+        }
+
+        LogService.controllerLog(req, resp);
+
+        return res.ok(resp);
+    }, 
+
+    /**  
+     * @author      Elias Lawrence
+     * @param       
+     * @returns     
+     * @description Find by text to feed
+     */
+     async search (req, res) {
+        let text  = req.params.text;         
+        let limit = req.params.limit;         
+        let skip  = req.params.skip;         
+
+        LogService.controllerLog(req, text);
+        LogService.controllerLog(req, limit);
+        LogService.controllerLog(req, skip);
+
+        try {
+            var resp = await ProductService.search(text, limit, skip);
         } catch (err) {
             LogService.controllerLog(req, err);
             throw err;
@@ -137,7 +193,7 @@ module.exports = {
         LogService.controllerLog(req, productId);
     
         try{       
-            let imageCreated = await ImageService.createFromFile(file);
+            let imageCreated = await ImageService.create(file);
             LogService.controllerLog(req, imageCreated);
 
             var resp = await ProductService.addImage(productId, imageCreated.id);
@@ -164,7 +220,7 @@ module.exports = {
         LogService.controllerLog(req, productId);
     
         try{
-            let imageCreated = await ImageService.createFromFile(file);
+            let imageCreated = await ImageService.create(file);
             LogService.controllerLog(req, imageCreated);
     
             var resp = await ProductService.updateCoverImage(productId, imageCreated);

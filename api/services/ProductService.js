@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Services
  */
 
+const objectid = require('mongodb').ObjectID;
+
 function _log(method, message = null) {
   LogService.log('ProductService', method, message);
 }
@@ -33,7 +35,8 @@ module.exports = {
       let employee       = await EmployeeService.findByUser(userId);
       let total          = await ProductService.count({store: employee.store}) + 1;
       let newProductName = 'Produto ' + total;
-      let newProduct     = {name: newProductName, store: employee.store};
+      let newProduct     = {name: newProductName, store: employee.store, searchField: newProductName.toLowerCase()};
+      
 
       var resp = await ProductService.create(newProduct);      
     } catch (err) {
@@ -49,7 +52,7 @@ module.exports = {
   async create(newProduct) { 
     _log('create', newProduct);
    
-    try {      
+    try {     
       var resp = await Product.create(newProduct).fetch();
     } catch (err) {
       _log('create', err);
@@ -68,6 +71,7 @@ module.exports = {
 
     try {
       product = await Product.updateOne({ id: productId }).set(attributeJSON);
+      product = await Product.updateOne({ id: productId }).set({searchField: product.name.toLowerCase() + " " + product.description.toLowerCase().replace(/(\r\n|\n|\r)/gm," ") + " " + product.code});
 
       if(!product){
         const err = new Error('Product not found');
@@ -85,11 +89,11 @@ module.exports = {
   },
 
   // FIND
-  async find(params) { 
+  async find(params, limit, skip) { 
     _log('find', params);
 
     try {
-      var resp = await Product.find(params).populate('coverImage'); 
+      var resp = await Product.find(params).limit(limit).skip(skip).populate('coverImage'); 
     } catch (err) {
       _log('find', err);
       throw err;
@@ -104,7 +108,7 @@ module.exports = {
     _log('findById', productId);
 
     try {
-      var resp = await Product.findOne({id:productId}).populate('images').populate('coverImage');
+      var resp = await Product.findOne({id:productId}).populate('images').populate('coverImage').populate('store');
       _log('findById', resp);
 
       var imagesArray = [];
@@ -145,18 +149,60 @@ module.exports = {
     return resp;
   },
 
-  async findByUser(userId) { 
+  async findByUser(userId, text, limit, skip) { 
     _log('findByUser', userId);
 
     try {
-      let employee = await EmployeeService.findByUser(userId);
-      var resp     = await ProductService.findByStore(employee.store);
+      let employee = await EmployeeService.findByUser(userId);      
+      var resp     = await ProductService.search(text, limit, skip, {store: objectid(employee.store)});
     } catch (err) {
       _log('findByUser', err);
       throw err;
     }
 
     _log('findByUser', resp);
+
+    return resp;
+  },
+
+  async search(text, limit, skip, param = {}) { 
+    _log('search');
+
+    try {
+      if(text != undefined) {
+        let  words = text.split(" ");
+
+        let andClause = [];
+        for(let i = 0; i < words.length; i++){
+          andClause.push({ searchField: {"$regex": new RegExp(words[i],"i")}});
+        }
+        
+        param.$and = andClause;
+      }
+      _log('search', param);
+
+      // Get access to the native MongoDB client via the default Sails datastore.
+      var db = sails.getDatastore().manager;
+
+      // Find all products with the expression "text" in the searchField.
+      var products = await db.collection('product').find(param).project({ id: 1 }).toArray();
+      _log('search', products);
+
+      var ids = [];
+
+      for(let i = 0; i < products.length; i++){
+        ids.push(products[i]['_id'].toString());
+      }
+
+      // _log('search', ids);
+
+      var resp = await Product.find({id: ids}).limit(limit).skip(skip).populate('coverImage').populate('store'); 
+    } catch (err) {
+      _log('search', err);
+      throw err;
+    }
+
+    _log('search', resp);
 
     return resp;
   },

@@ -26,13 +26,23 @@ module.exports.policies = {
   },
 
   TestController: {
-    image: true
-  //   '*': true
+    '*': true
   },
 
   ImageController: {
     findById: true
   //   '*': true
   },
+
+  ProductController: {
+    search: true,
+    findById: true,
+    findByStore: true
+  },
+
+  StoreController: {
+    search: true,
+    findById: true
+  }
 
 };

@@ -15,3 +15,8 @@ npm install grunt-sync@0.8.0
 
 // Access s3 file
 npm install skipper-s3 --save
+npm install aws-sdk
+npm install skipper-better-s3
+
+// Email
+npm install nodemailer
