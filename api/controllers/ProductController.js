@@ -95,7 +95,7 @@ module.exports = {
         LogService.controllerLog(req, skip);
 
         try {
-            var resp = await ProductService.search(text, limit, skip);
+            var resp = await ProductService.search(text, limit, skip, {available : true});
         } catch (err) {
             LogService.controllerLog(req, err);
             throw err;
