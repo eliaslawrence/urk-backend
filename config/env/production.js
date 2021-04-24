@@ -22,7 +22,21 @@
 module.exports = {
   APP_URL: process.env.APP_URL,
 
-  UPLOAD_TYPE: process.env.UPLOAD_TYPE,
+  STORAGE_TYPE: process.env.STORAGE_TYPE,
+  S3_STORAGE: "s3",
+  LOCAL_STORAGE: "local",
+
+  AWS_KEY: process.env.AWS_KEY,
+  
+  AWS_SECRET: process.env.AWS_SECRET,
+  
+  AWS_REGION: process.env.AWS_REGION,
+  
+  AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
+
+  //EMAIL
+  GMAIL_USER: process.env.GMAIL_USER,
+  GMAIL_PASS: process.env.GMAIL_PASS,
 
   upload:{
     path: '/assets/uploads/',

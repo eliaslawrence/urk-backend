@@ -1,7 +1,7 @@
 /**
- * StoreController
+ * TestController
  *
- * @description :: Server-side logic for managing stores
+ * @description :: Server-side logic for tests
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 // const fs = require('fs');
@@ -156,6 +156,6 @@ module.exports = {
       throw(error);
       // ResponseService.sendError(res, err);
     });
-  }, 
+  },   
 
 };

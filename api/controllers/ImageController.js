@@ -5,13 +5,26 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+
 const uploadOption = {
-    local: { dirname: sails.config.upload.transferPath },
+    local: { 
+        dirname: sails.config.upload.transferPath, 
+        // don't allow the total upload size to exceed ~4MB
+        maxBytes: 4000000 
+    },
     s3: {
-      // adapter: require('skipper-s3'),
-      key: 'S3 Key',
-      secret: 'S3 Secret',
-      bucket: 'Bucket Name'
+        adapter: require('skipper-better-s3'), 
+        key: sails.config.AWS_KEY, 
+        secret: sails.config.AWS_SECRET, 
+        bucket: sails.config.AWS_BUCKET_NAME,
+        region: sails.config.AWS_REGION,  // Optional - default is 'us-standard'
+        // Let's use the custom s3params to upload this file as publicly
+        // readable by anyone
+        s3params: { 
+            ACL: 'public-read'
+        },
+        // don't allow the total upload size to exceed ~4MB
+        maxBytes: 4000000 
     }
 };
 
@@ -79,19 +92,29 @@ module.exports = {
      */
     upload: (req, res) => { 
         LogService.controllerLog(req);
-    
-        req.file('image').upload(uploadOption[sails.config.UPLOAD_TYPE], function(err, uploadedFiles) {   
-          LogService.controllerLog(req, uploadedFiles);
-    
-          if (err) return res.serverError(err);
-          
-          if(uploadedFiles && uploadedFiles[0]){
-            let file = uploadedFiles[0];
-            return res.ok(file);
-          }
-    
-          return res.ok();
-        });
+
+        req.file('image').upload(uploadOption[sails.config.STORAGE_TYPE], function(err, files) { 
+            LogService.controllerLog(req, files);
+            
+            if (err) return res.serverError(err);
+            
+            if(files && files[0]){
+                let file = files[0];
+                let {fd: fileName, filename: originalName, type, size} = file;
+                let storage = sails.config.STORAGE_TYPE;
+
+                let url = "";
+                if(sails.config.STORAGE_TYPE == sails.config.LOCAL_STORAGE){
+                    fileName = fileName.substr(fileName.lastIndexOf('/') + 1);
+                    url = sails.config.APP_URL + '/uploads/' + fileName;
+                } else if (sails.config.STORAGE_TYPE == sails.config.S3_STORAGE) {
+                    url = file.extra.Location;
+                }
+                
+                return res.ok({fileName, originalName, url, type, size, storage},file);
+            }
+            return res.ok();
+        }); 
     },
 
 };

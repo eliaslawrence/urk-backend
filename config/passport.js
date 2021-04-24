@@ -11,7 +11,9 @@ var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 
 var EXPIRES_IN_MINUTES ;
+var EXPIRES_IN_1_DAY = "1d" ;
 var SECRET = process.env.tokenSecret || "7PmpTVZZgJ5zY7zzpVyUrIxCFJbs7F23rnFpKZHvxJHWUwUoTNpaWrm9K7rTa799";
+var EMAIL_SECRET = process.env.emailSecret || "tciePgbrmGLobm9U6YwPiDnDxcf02a25aOdhVKeICOXUPPnFlcEoPih13UNOksid" 
 var ALGORITHM = "HS256";
 var ISSUER = "urk.com.br";
 var AUDIENCE = "urk.com.br";
@@ -62,6 +64,13 @@ function _onLocalStrategyAuth(email, password, next) {
           message: "Usuário ou senha incorretos."
         });
       } 
+
+      if (!user.confirmed){
+        return next(null, false, {
+          code: 'E_EMAIL_NOT_CONFIRMED',
+          message: 'Email não confirmado.'
+        });
+      } 
       // TODO: replace with new cipher service type
       if (!CipherService.comparePassword(password, user)){
         return next(null, false, {
@@ -101,6 +110,14 @@ passport.deserializeUser(function(id, done) {
 module.exports.jwtSettings = {
   expiresInMinutes: EXPIRES_IN_MINUTES,
   secret: SECRET,
+  algorithm : ALGORITHM,
+  issuer : ISSUER,
+  audience : AUDIENCE
+};
+
+module.exports.jwtEmailSettings = {
+  expiresIn: EXPIRES_IN_1_DAY,
+  secret: EMAIL_SECRET,
   algorithm : ALGORITHM,
   issuer : ISSUER,
   audience : AUDIENCE

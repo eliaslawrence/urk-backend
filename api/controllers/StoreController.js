@@ -37,6 +37,28 @@ module.exports = {
      * @author      Elias Lawrence
      * @param       
      * @returns     
+     * @description Find by id
+     */
+   async findById (req, res) {
+    let storeId = req.params.storeId;
+    LogService.controllerLog(req, storeId);        
+
+    try {
+        var resp = await StoreService.findById(storeId);
+    } catch (err) {
+        LogService.controllerLog(req, err);
+        throw err;
+    }
+
+    LogService.controllerLog(req, resp);
+
+    return res.ok(resp);
+  },
+
+  /**  
+     * @author      Elias Lawrence
+     * @param       
+     * @returns     
      * @description Find store by useremployee
      */
   async findByUser (req, res) {
@@ -65,6 +87,33 @@ module.exports = {
      * @author      Elias Lawrence
      * @param       
      * @returns     
+     * @description Find by text to feed
+  */
+  async search (req, res) {
+    let text  = req.params.text;         
+    let limit = req.params.limit;         
+    let skip  = req.params.skip;         
+
+    LogService.controllerLog(req, text);
+    LogService.controllerLog(req, limit);
+    LogService.controllerLog(req, skip);
+
+    try {
+        var resp = await StoreService.search(text, limit, skip);
+    } catch (err) {
+        LogService.controllerLog(req, err);
+        throw err;
+    }
+
+    LogService.controllerLog(req, resp);
+
+    return res.ok(resp);
+  }, 
+
+  /**  
+     * @author      Elias Lawrence
+     * @param       
+     * @returns     
      * @description Update store attribute
      */
    async updateAttribute (req, res) {
@@ -86,67 +135,12 @@ module.exports = {
     return res.ok(result);
   },
 
-  /**  
-     * @author      Elias Lawrence
-     * @param       
-     * @returns     
-     * @description Update store image
-     */
-  //  updateImage: (req, res) => { 
-  //   LogService.controllerLog(req);
-
-  //   req.file('image').upload({
-  //     dirname: sails.config.upload.transferPath,
-  //   }, function(err, uploadedFiles) {      
-  //     if (err) return res.serverError(err);
-      
-  //     if(uploadedFiles && uploadedFiles[0]){
-  //       let file = uploadedFiles[0];
-              
-  //       LogService.controllerLog(req, file);
-  //       let image = {};
-  //       image.fileName = file.fd.substr(file.fd.lastIndexOf('/') + 1);
-  //       image.fileName = image.fileName.substr(0, image.fileName.lastIndexOf('.'));
-  //       image.originalName = file.filename.substr(0, file.filename.lastIndexOf('.'));;
-  //       image.extension = file.filename.substr(file.filename.lastIndexOf('.') + 1);
-  //       image.url = sails.config.appURL + '/uploads/' + image.fileName + '.' + image.extension;
-  //       image.size = file.size;
-  //       LogService.controllerLog(req, image);
-
-  //       return StoreService.updateImage(req.user.id, image).then(()=>{
-  //           return res.ok();                              
-  //       }).catch((err) => {              
-  //         LogService.controllerLog(req, err);
-  //         throw err;
-  //       })
-  //     }
-
-  //     return res.ok();
-  //   });
-  // },
-  // updateImage: (req, res) => { 
-  //   LogService.controllerLog(req);
-
-  //   req.file('image').upload(uploadOption[sails.config.UPLOAD_TYPE], function(err, uploadedFiles) {   
-  //     LogService.controllerLog(req, uploadedFiles);
-
-  //     if (err) return res.serverError(err);
-      
-  //     if(uploadedFiles && uploadedFiles[0]){
-  //       let file = uploadedFiles[0];
-  //       return res.ok(file);
-  //     }
-
-  //     return res.ok();
-  //   });
-  // },
-
   async updateImage (req, res) { 
     let file = req.body.file;
     LogService.controllerLog(req, file);
 
     try{
-      let imageCreated = await ImageService.createFromFile(file);
+      let imageCreated = await ImageService.create(file);
       LogService.controllerLog(req, imageCreated);
 
       var resp = await StoreService.updateImage(req.user.id, imageCreated);

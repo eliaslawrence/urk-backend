@@ -41,5 +41,17 @@ module.exports = {
 
       return res.ok(result);
     },
+
+    /**  
+     * @author      Elias Lawrence
+     * @param       
+     * @returns     
+     * @description Confirm email registered
+     */
+    confirmEmail: (req, res) => {
+      let token = req.params[0];
+      LogService.controllerLog(req, token);
+      AuthService.confirmEmail(token, res); 
+    },
 };
 
