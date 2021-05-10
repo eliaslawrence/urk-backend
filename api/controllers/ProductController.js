@@ -65,10 +65,17 @@ module.exports = {
      */
      async findByStore (req, res) {
         let storeId = req.params.storeId;
+        let text  = req.params.text;         
+        let limit = req.params.limit;         
+        let skip  = req.params.skip;         
+
+        LogService.controllerLog(req, text);
+        LogService.controllerLog(req, limit);
+        LogService.controllerLog(req, skip);
         LogService.controllerLog(req, storeId);
 
         try {
-            var resp = await ProductService.findByStore(storeId);
+            var resp = await ProductService.findByStore(text, limit, skip, storeId);
         } catch (err) {
             LogService.controllerLog(req, err);
             throw err;

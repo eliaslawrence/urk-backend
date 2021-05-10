@@ -134,11 +134,12 @@ module.exports = {
     return resp;
   },
 
-  async findByStore(storeId) { 
+  async findByStore(text, limit, skip, storeId) { 
     _log('findByStore', storeId);
 
     try {
-      var resp = await ProductService.find({store:storeId});
+      // var resp = await ProductService.find({store:storeId});
+      var resp = await ProductService.search(text, limit, skip, {store: objectid(storeId), available : true});
     } catch (err) {
       _log('findByStore', err);
       throw err;
