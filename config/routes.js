@@ -82,7 +82,7 @@ module.exports.routes = {
     action: 'findByUser',
   },
 
-  'GET /product/findByStore/:storeId?': {
+  'GET /product/findByStore/:storeId/:limit/:skip/:text?': {
     controller: 'ProductController',
     action: 'findByStore',
   },
