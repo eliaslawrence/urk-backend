@@ -33,6 +33,7 @@ module.exports.bootstrap = async function(done) {
     // If this is _actually_ a production environment (real or simulated), or we have
     // `migrate: safe` enabled, then prevent accidentally removing all data!
     if (process.env.NODE_ENV==='production' || sails.config.models.migrate === 'safe') {      
+      sails.log.warn('URL: ' + process.env.APP_URL);
       sails.log.warn('Since we are running with migrate: \'safe\' and/or NODE_ENV=production (in the "'+sails.config.environment+'" Sails environment, to be precise), skipping the rest of the bootstrap to avoid data loss...');
       return done();
     }//•

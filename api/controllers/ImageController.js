@@ -91,7 +91,9 @@ module.exports = {
      * @description Upload image
      */
     upload: (req, res) => { 
-        LogService.controllerLog(req);
+        LogService.controllerLog(req, process.env.NODE_ENV);
+        LogService.controllerLog(req, sails.config.APP_URL);
+        LogService.controllerLog(req, sails.config.STORAGE_TYPE);
 
         req.file('image').upload(uploadOption[sails.config.STORAGE_TYPE], function(err, files) { 
             LogService.controllerLog(req, files);

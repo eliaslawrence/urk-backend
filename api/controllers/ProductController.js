@@ -35,18 +35,20 @@ module.exports = {
      * @description Find by user
      */
      async findByUser (req, res) {
-        let user  = req.user;
-        let text  = req.params.text;         
-        let limit = req.params.limit;         
-        let skip  = req.params.skip;         
+        let user       = req.user;
+        let text       = req.params.text;         
+        let limit      = req.params.limit;         
+        let skip       = req.params.skip;
+        let available  = req.params.available;            
 
         LogService.controllerLog(req, text);
         LogService.controllerLog(req, limit);
         LogService.controllerLog(req, skip);
         LogService.controllerLog(req, user);
+        LogService.controllerLog(req, available);
 
         try {
-            var resp = await ProductService.findByUser(user.id, text, limit, skip);
+            var resp = await ProductService.findByUser(user.id, text, limit, skip, available);
         } catch (err) {
             LogService.controllerLog(req, err);
             throw err;

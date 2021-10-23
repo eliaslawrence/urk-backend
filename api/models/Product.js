@@ -66,7 +66,7 @@ module.exports = {
     // },
     available: {
       type: 'boolean',
-      defaultsTo: true,
+      defaultsTo: false,
     },
   },
 };

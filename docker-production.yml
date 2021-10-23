@@ -1,0 +1,40 @@
+version: '2'
+services:
+  store:
+    env_file:
+      - docker-production.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.store.rule=Host(`urkstore.com`)"  #com tls
+      # # - "traefik.http.routers.store.entrypoints=web"
+      - "traefik.http.routers.store.entrypoints=websecure"  #com tls
+      - "traefik.http.routers.store.tls.certresolver=mytlschallenge"  #com tls
+      # # - "traefik.frontend.rule=Host:ec2-52-204-8-68.compute-1.amazonaws.com"      
+
+  reverse-proxy:
+    # https://doc.traefik.io/traefik/v2.0/user-guides/docker-compose/basic-example/
+    image: traefik:v2.4.8
+    command: 
+    # com tls
+      - "--api.insecure=true"
+      # # Enabling docker provider
+      - "--providers.docker=true"
+      # # Do not expose containers unless explicitly told so
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
+      - "--certificatesresolvers.mytlschallenge.acme.email=urk.lojas@gmail.com"
+      - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
+    # com tls
+
+      # --api.insecure=true --providers.docker
+    # --api --docker.exposedbydefault=false
+    ports: 
+      - "443:443"
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "./letsencrypt:/letsencrypt" # com tls
+      # - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - /var/run/docker.sock:/var/run/docker.sock

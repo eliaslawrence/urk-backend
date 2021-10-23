@@ -150,12 +150,12 @@ module.exports = {
     return resp;
   },
 
-  async findByUser(userId, text, limit, skip) { 
+  async findByUser(userId, text, limit, skip, available) { 
     _log('findByUser', userId);
 
     try {
       let employee = await EmployeeService.findByUser(userId);      
-      var resp     = await ProductService.search(text, limit, skip, {store: objectid(employee.store)});
+      var resp     = await ProductService.search(text, limit, skip, {store: objectid(employee.store), available : available == "true" ? true : false});
     } catch (err) {
       _log('findByUser', err);
       throw err;

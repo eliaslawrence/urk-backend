@@ -1,4 +1,4 @@
-# ez-med-server
+# URK Store Backend
 
 a [Sails v1](https://sailsjs.com) application
 

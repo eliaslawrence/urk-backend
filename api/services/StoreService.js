@@ -213,14 +213,20 @@ module.exports = {
     _log('updateAttribute');
 
     try {
-      var resp = await Store.updateOne({ id: storeId }).set(attributeJSON);
-      resp = await Store.updateOne({ id: storeId }).set({searchField: resp.name.toLowerCase() + " " + resp.accountName.toLowerCase().replace(/(\r\n|\n|\r)/gm," ")});
+      var resp = await Store.updateOne({ id: storeId }).set(attributeJSON);      
 
       if(!resp){
         const err = new Error('Store not found');
         err.status = 400;
         throw err;
       }
+
+      let name        = resp.name ? resp.name.toLowerCase() : '';
+      let accountName = resp.accountName ? resp.accountName.toLowerCase() : '';
+      let description = resp.description ? resp.description.toLowerCase().replace(/(\r\n|\n|\r)/gm," ") : '';
+
+      resp = await Store.updateOne({ id: storeId }).set({searchField: name + " " + accountName + " " + description});
+
     } catch (error) {
       _log('updateAttribute', error);
       throw error;
