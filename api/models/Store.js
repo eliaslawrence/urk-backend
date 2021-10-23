@@ -37,6 +37,9 @@ module.exports = {
     searchField: {
       type: 'string'
     },   
+    description: {
+      type: 'string'
+    }, 
 
     // //Sunday 
     // sundayWork: {

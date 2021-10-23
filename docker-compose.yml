@@ -1,0 +1,15 @@
+version: '2'
+services:
+  store:
+    build: .
+    env_file:
+      - docker-development.env
+    ports:
+     - "1337:1337"
+    volumes:
+      - ./assets:/home/app/store-service/assets
+
+  # mongodb:
+  #   image: mongo
+  #   ports:
+  #     - "27017:27017"  

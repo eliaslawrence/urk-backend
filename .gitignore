@@ -48,6 +48,9 @@ assets/uploads/*
 
 config/local.js
 secrets.txt
+urk-back_accessKeys.csv
+urk-serve-ssh.ppk
+letsencrypt/
 
 ################################################
 # Dependencies
@@ -133,6 +136,9 @@ lib-cov
 *.out
 *.pid
 
-Dockerfile
+# Dockerfile
 
-docker-compose.yml
+# docker-compose.yml
+# docker-production.yml
+docker-production.env
+docker-development.env
