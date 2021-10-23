@@ -18,11 +18,11 @@
 
 ### Features
 
-+ [JWT/Passport Authentication](https://github.com/eliaslawrence/urk-backend/blob/master/api/services/AuthService.js)
+<!-- + [JWT/Passport Authentication](https://github.com/eliaslawrence/urk-backend/blob/master/api/services/AuthService.js)
 + [Email](https://github.com/eliaslawrence/urk-backend/blob/master/api/services/AuthService.js)
 + [File / Image Storage](https://github.com/eliaslawrence/urk-backend/blob/master/api/controllers/ImageController.js)
 + [File / Image Transfer](https://github.com/eliaslawrence/urk-backend/blob/master/api/controllers/ImageController.js)
-+ [TLS](https://github.com/eliaslawrence/urk-backend/blob/master/docker-production.yml)
++ [TLS](https://github.com/eliaslawrence/urk-backend/blob/master/docker-production.yml) -->
 
 
 ### Version info
